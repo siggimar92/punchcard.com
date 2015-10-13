@@ -8,13 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/sigurdura13/punchcard.com.git"
+    "url": "git+https://github.com/sigurdura13/punchcard.com.git"
   },
   "author": "Gunnar Marteinsson and Sigurdur Mar Atlason",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/sigurdura13/punchcard.com#readme",
+  "homepage": "https://github.com/sigurdura13/punchcard.com#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "node-uuid": "^1.4.3"
   },
   "devDependencies": {
     "eslint": "^1.6.0",
