@@ -1,0 +1,23 @@
+{
+  "name": "punchcard",
+  "version": "1.0.0",
+  "description": "This is a simple application where both companies and their users can register, and users can then issue a \"punch\". When they've collected enough punches (usually 10), they will get a discount at the company (perhaps a free meal at a restaurant after buying 10 meals, or 20% discount of their next purchase at some shop etc.",
+  "main": "punchcard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/sigurdura13/punchcard.com.git"
+  },
+  "author": "Gunnar Marteinsson and Sigurdur Mar Atlason",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sigurdura13/punchcard.com#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {
+    "eslint": "^1.6.0",
+    "mocha": "^2.3.3"
+  }
+}
