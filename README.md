@@ -3,6 +3,9 @@ this is a simple app where both companies and their users can register, and user
 
 ##Setup instructions
 **1)** clone the project: ```git clone https://github.com/sigurdura13/punchcard.com.git```
+
 **2)** go into repo folder ```cd punchcard.com```
+
 **3)** run ```npm install```
+
 **4)** you should be good to go!
