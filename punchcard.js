@@ -8,7 +8,7 @@ const _ = require('lodash');
 const port = 8000;
 const app = express();
 const companies = [{"name": "Apple", "punchCount": "10"},{"name": "Microsoft", "punchCount": "22"}];
-const users = [{"name": "Gunnar", "email": "g@g.is", "id":"0", "punches": [{ "companyID":"0","dateAdded": "2014-10-10" },{ "companyID":"1","dateAdded": "2015-12-12" }]}];
+const users = [{"name": "Gunnar", "email": "g@g.is", "id":"0", "punches": [{ "companyID":"3","dateAdded": "2014-10-10" },{ "companyID":"1","dateAdded": "2015-12-12" }]}];
 const punches = [];
 const companiesPrefix = '/api/companies';
 const usersPrefix = '/api/users';
@@ -88,7 +88,7 @@ app.get(usersPrefix + '/:id/punches', (req, res) => {
 	});
 
 	if (userEntry) {
-    // if there is a parameter for company id
+
 		if(compID != undefined) {
 
       const punchesCompany = [];
@@ -123,10 +123,12 @@ app.post(usersPrefix, (req, res) => {
 
 	if (!data.hasOwnProperty('name')) {
 		res.status(412).send('missing name');
+		return;
 	}
 
 	if (!data.hasOwnProperty('email')) {
 		res.status(412).send('missing email');
+		return;
 	}
 
 	var newUser = {
@@ -134,13 +136,34 @@ app.post(usersPrefix, (req, res) => {
 		email: data.email,
 		id: index,
 		//id: data.id,
-		punches: data.punches
+		//punches: data.punches
 	};
 
 	users.push(newUser);
 	res.json(true);
 });
 
+
+app.post(usersPrefix + '/:id/punches', (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+
+	console.log("data: ", data);
+	console.log("id: ", id);
+
+	if (!data.hasOwnProperty('companyID')) {
+		res.status(412).send('missing companyID');
+		return;
+	}
+
+	var newPunch = {
+		companyID: data.companyID,
+		dateAdded: new Date()
+	}
+
+	users[id].punches.push(newPunch);
+
+});
 
 /* SERVER */
 app.listen(port, () => {
