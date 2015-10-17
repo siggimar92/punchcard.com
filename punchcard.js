@@ -7,8 +7,8 @@ const _ = require('lodash');
 
 const port = 8000;
 const app = express();
-const companies = [{"name": "Apple", "punchCount": "10"},{"name": "Microsoft", "punchCount": "22"}];
-const users = [{"name": "Gunnar", "email": "g@g.is", "id":"0", "punches": [{ "companyID":"3","dateAdded": "2014-10-10" },{ "companyID":"1","dateAdded": "2015-12-12" }]}];
+const companies = [{"name":"Apple", "punchCount":"10", "id":0}, {"name":"Microsoft", "punchCount":"25", "id":1}];
+const users = [{"name":"Sigurdur Mar Atlason", "email":"sigurdura13@ru.is", "id":0},{"name":"Gunnar Marteinsson", "email":"gunnarm13@ru.is", "id":1}];
 const punches = [];
 const companiesPrefix = '/api/companies';
 const usersPrefix = '/api/users';
@@ -29,7 +29,6 @@ app.get(companiesPrefix, (req, res) => {
 app.post(companiesPrefix, (req, res) => {
 	const data = req.body;
 	var index = companies.length;
-	console.log("Company: ", index);
 	//data.id = uuid.v4();
 
 	if (!data.hasOwnProperty('name')) {
@@ -59,7 +58,7 @@ app.get(companiesPrefix + '/:id', (req, res) => {
 	const id = req.params.id;
 
 	const companyEntry = _.find(companies, (company) => {
-		return company.id === id;
+		return company.id == id;
 	});
 
 	if (companyEntry) {
@@ -84,12 +83,12 @@ app.get(usersPrefix + '/:id/punches', (req, res) => {
 	const compID = req.query.company;
 
 	const userEntry = _.find(users, (usr) => {
-		return usr.id === id;
+		return usr.id == id;
 	});
 
 	if (userEntry) {
 
-		if(compID != undefined) {
+		if(compID) {
 
       const punchesCompany = [];
 			for (var i = 0; i < userEntry.punches.length; i++) {
@@ -105,7 +104,11 @@ app.get(usersPrefix + '/:id/punches', (req, res) => {
 			}
 
 		} else {
-			res.send(userEntry.punches);
+			if (userEntry.punches) {
+				res.send(userEntry.punches);
+			} else {
+				res.status(404).send('No punches found for this user');
+			}
 		}
 	} else {
 		res.status(404).send('User not found');
@@ -118,7 +121,6 @@ app.get(usersPrefix + '/:id/punches', (req, res) => {
 app.post(usersPrefix, (req, res) => {
 	const data = req.body;
 	var index = users.length;
-	console.log("User: ", index);
 	//data.id = uuid.v4();
 
 	if (!data.hasOwnProperty('name')) {
@@ -144,12 +146,10 @@ app.post(usersPrefix, (req, res) => {
 });
 
 
+/*  /api/users/{id}/punches - POST  */
 app.post(usersPrefix + '/:id/punches', (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-
-	console.log("data: ", data);
-	console.log("id: ", id);
 
 	if (!data.hasOwnProperty('companyID')) {
 		res.status(412).send('missing companyID');
@@ -161,7 +161,12 @@ app.post(usersPrefix + '/:id/punches', (req, res) => {
 		dateAdded: new Date()
 	}
 
+	//users[id].punches = punches.splice(id, 0, newPunch);
+	if (!users[id].hasOwnProperty('punches')) {
+		users[id].punches = [];
+	}
 	users[id].punches.push(newPunch);
+	res.json(true);
 
 });
 
